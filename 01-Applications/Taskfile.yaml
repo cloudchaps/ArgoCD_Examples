@@ -19,7 +19,7 @@ tasks:
             EOF
             )"
           silent: true
-        - minikube start --driver=docker
+        - minikube start --kubernetes-version=v1.28.3
         - echo "✅ Kubernetes cluster launched successfully"
         - minikube status
         - kubectl get nodes

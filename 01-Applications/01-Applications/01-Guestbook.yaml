@@ -9,9 +9,10 @@ spec:
     server: "https://kubernetes.default.svc"
   project: default
   source: 
-    path: 01-Application
+    path: 01-Applications/02-Manifest/01-Application
     repoURL: "https://github.com/cloudchaps/ArgoCD_Examples.git"
     targetRevision: main
   syncPolicy:
     syncOptions:
+      - SkipDryRunOnMissingResource=true
       - CreateNamespace=true
