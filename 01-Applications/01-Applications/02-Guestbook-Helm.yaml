@@ -9,9 +9,9 @@ spec:
     server: "https://kubernetes.default.svc"
   project: default
   source: 
-    path: 02-Helm
+    path: 01-Applications/02-Manifest/02-Helm
     repoURL: "https://github.com/cloudchaps/ArgoCD_Examples.git"
-    targetRevision: master
+    targetRevision: main
     helm:
      releaseName: my-release
   syncPolicy:
