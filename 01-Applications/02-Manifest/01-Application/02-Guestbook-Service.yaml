@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: guestbook-service
+  name: guestbook-ui
 spec:
   selector:
-    app: guestbook
+    app: guestbook-ui
   ports:
     - protocol: TCP
       port: 80

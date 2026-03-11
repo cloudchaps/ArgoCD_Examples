@@ -4,7 +4,13 @@ env:
     ### Global Variables
     
     ### Runtime Variables
-    ARGOCD_SINGLE_APPLICATION: "01-Guestbook"
+    ARGOCD_NAMESPACES: 
+      - "guestbook"
+    ARGOCD_APPLICATIONS:
+      - "01-Guestbook"
+      - "02-Application-with-configmap"
+      - "03-Application-with-helm"
+      - "04-Application-with-kustomize"
         
   ####### Create Resource Group and lauch VMs #######
 tasks:
@@ -45,4 +51,5 @@ tasks:
         - echo "✅ Creating a single application in ArgoCD"
         - kubectl apply -f ./01-Applications/${ARGOCD_SINGLE_APPLICATION}.yaml
         - echo "✅ Get the application with the following command:"
-        - kubectl get applications -n argocd
+        - kubectl get applications -n ${ARGOCD_SINGLE_APPLICATION}
+        - kubectl describe application -n argocd
