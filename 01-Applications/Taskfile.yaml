@@ -1,0 +1,48 @@
+version: "3"
+
+env:
+    ### Global Variables
+    
+    ### Runtime Variables
+    ARGOCD_SINGLE_APPLICATION: "01-Guestbook"
+        
+  ####### Create Resource Group and lauch VMs #######
+tasks:
+    ARGOCD:01-launch-kubernetes-cluster:
+      desc: Launch cluster using minikube, this is a sinngle node cluster running in your local machine.
+      cmds:
+        - cmd: |
+            gum style "$(cat <<EOF
+            ✅ Pre-requisites
+            1. 👤 Launch minukube
+            2. 🔑 Create ssh keys in the Azure Portal and set the name in the AZURE_SSH_KEY variable
+            EOF
+            )"
+          silent: true
+        - minikube start --driver=docker
+        - echo "✅ Kubernetes cluster launched successfully"
+        - minikube status
+        - kubectl get nodes
+        - kubectl version
+        - echo "✅ You can now access the dashboard with the following command:"
+        - minikube dashboard
+        
+    ARGOCD:02-deploy-argocd:
+      desc: Deploy ArgoCD in the cluster
+      cmds:
+        - kubectl create namespace argocd
+        - kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+        - kubectl get pods -n argocd
+        - echo "✅ ArgoCD deployed successfully"
+        - echo "✅ Port forward to access the UI"
+        - kubectl port-forward svc/argocd-server -n argocd 8080:443 > /dev/null 2>&1 &
+        - echo "✅ Get the password for the initial admin user with the following command:"
+        - echo "This is the master password $(kubectl get secret -n argocd argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d)"
+
+    ARGOCD:03-Create-application-Plain-Kubernetes-Manifests:
+      desc: Create a single application in ArgoCD
+      cmds:
+        - echo "✅ Creating a single application in ArgoCD"
+        - kubectl apply -f ./01-Applications/${ARGOCD_SINGLE_APPLICATION}.yaml
+        - echo "✅ Get the application with the following command:"
+        - kubectl get applications -n argocd

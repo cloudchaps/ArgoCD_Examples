@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: track-head
+  namespace: argocd
+spec:
+  destination:
+    namespace: track-head
+    server: "https://kubernetes.default.svc"
+  project: default
+  source: 
+    path: 03-TrackingHEAD
+    repoURL: "https://github.com/cloudchaps/ArgoCD_Examples.git"
+    targetRevision: HEAD
+    directory:
+      recurse: true
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true

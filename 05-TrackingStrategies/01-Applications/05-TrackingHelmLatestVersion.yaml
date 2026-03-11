@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: track-helm-range
+  namespace: argocd
+spec:
+  destination:
+    namespace: track-helm-range
+    server: "https://kubernetes.default.svc"
+  project: default
+  source: 
+    path: 04-TrackingHelmRangeOfVersions
+    repoURL: "https://github.com/cloudchaps/ArgoCD_Examples.git"
+    targetRevision: '*'
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true

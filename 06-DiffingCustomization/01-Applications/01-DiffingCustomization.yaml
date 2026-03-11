@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: diffing-customization-demo
+  namespace: argocd
+spec: 
+  destination:
+    namespace: diffing-customization-demo
+    server: "https://kubernetes.default.svc"
+  project: default
+  source: 
+    path: 01-DiffingCustomization
+    repoURL: "https://github.com/cloudchaps/ArgoCD_Examples.git"
+    targetRevision: master
+    directory:
+      recurse: true
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      jsonPointers:
+      - /spec/replicas
