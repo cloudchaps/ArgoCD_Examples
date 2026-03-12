@@ -4,4 +4,4 @@ resources:
 namespace: kustom-dev
 
 patches:
-  - replicas.yaml
+  - path: ./replicas.yaml

@@ -6,11 +6,7 @@ env:
     ### Runtime Variables
     ARGOCD_NAMESPACES: 
       - "guestbook"
-    ARGOCD_APPLICATIONS:
-      - "01-Guestbook"
-      - "02-Application-with-configmap"
-      - "03-Application-with-helm"
-      - "04-Application-with-kustomize"
+    ARGOCD_APPLICATIONS: "01-Guestbook 02-Guestbook-Helm 04-Guestbook-Kustomize"
         
   ####### Create Resource Group and lauch VMs #######
 tasks:
@@ -45,32 +41,14 @@ tasks:
         - echo "✅ Get the password for the initial admin user with the following command:"
         - echo "This is the master password $(kubectl get secret -n argocd argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d)"
 
-    ARGOCD:03-Create-application-Plain-Kubernetes-Manifests:
+    ARGOCD:03-Create-application-Manifests:
       desc: Create a single application in ArgoCD
       cmds:
-        - echo "✅ Creating a single application in ArgoCD"
-        - kubectl apply -f ./01-Applications/${ARGOCD_SINGLE_APPLICATION}.yaml
-        - echo "✅ Get the application with the following command:"
-        - kubectl get applications -n ${ARGOCD_SINGLE_APPLICATION}
-        - kubectl describe application -n argocd
-
-    ARGOCD:04-Create-application-HELM-Manifests:
-      desc: Create a single application in ArgoCD
-      cmds:
-        - echo "✅ Creating a HELM in ArgoCD"
-        - kubectl create namespace helm-config
-        - kubectl apply -f ./01-Applications/${ARGOCD_HELM_APPLICATION}.yaml
-        - echo "✅ Get the application with the following command:"
-        - kubectl get applications -n ${ARGOCD_HELM_APPLICATION}
-        - kubectl describe application -n argocd
-    
-    ARGOCD:05-Create-application-KUSTOMIZE-Manifests:
-      desc: Create a single application in ArgoCD
-      cmds:
-        - echo "✅ Creating a KUSTOMIZE in ArgoCD"
-        - kubectl create namespace kustom-prod
-        - kubectl create namespace kustom-dev
-        - kubectl apply -f ./01-Applications/${ARGOCD_KUSTOMIZE_APPLICATION}.yaml
-        - echo "✅ Get the application with the following command:"
-        - kubectl get applications -n ${ARGOCD_KUSTOMIZE_APPLICATION}
-        - kubectl describe application -n argocd
+        - cmd: |
+            for ARGOCD_APPLICATION in ${ARGOCD_APPLICATIONS}; do
+              echo "✅ Creating ${ARGOCD_APPLICATION} application in ArgoCD"
+              kubectl apply -f ./01-Applications/${ARGOCD_APPLICATION}.yaml
+              echo "✅ Get the ${ARGOCD_APPLICATION} application with the following command:"
+              kubectl get applications -n ${ARGOCD_APPLICATION}
+              kubectl describe application -n argocd
+            done
