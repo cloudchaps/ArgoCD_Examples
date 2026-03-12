@@ -1,0 +1,8 @@
+
+appname: guestbook-helm
+
+namespace: helm-config
+
+image:
+  name: gcr.io/google-samples/gb-frontend
+  tag: v5
