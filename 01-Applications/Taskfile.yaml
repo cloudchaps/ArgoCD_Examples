@@ -53,3 +53,24 @@ tasks:
         - echo "✅ Get the application with the following command:"
         - kubectl get applications -n ${ARGOCD_SINGLE_APPLICATION}
         - kubectl describe application -n argocd
+
+    ARGOCD:04-Create-application-HELM-Manifests:
+      desc: Create a single application in ArgoCD
+      cmds:
+        - echo "✅ Creating a HELM in ArgoCD"
+        - kubectl create namespace helm-config
+        - kubectl apply -f ./01-Applications/${ARGOCD_HELM_APPLICATION}.yaml
+        - echo "✅ Get the application with the following command:"
+        - kubectl get applications -n ${ARGOCD_HELM_APPLICATION}
+        - kubectl describe application -n argocd
+    
+    ARGOCD:05-Create-application-KUSTOMIZE-Manifests:
+      desc: Create a single application in ArgoCD
+      cmds:
+        - echo "✅ Creating a KUSTOMIZE in ArgoCD"
+        - kubectl create namespace kustom-prod
+        - kubectl create namespace kustom-dev
+        - kubectl apply -f ./01-Applications/${ARGOCD_KUSTOMIZE_APPLICATION}.yaml
+        - echo "✅ Get the application with the following command:"
+        - kubectl get applications -n ${ARGOCD_KUSTOMIZE_APPLICATION}
+        - kubectl describe application -n argocd
