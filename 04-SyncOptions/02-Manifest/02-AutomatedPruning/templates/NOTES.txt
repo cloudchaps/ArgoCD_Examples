@@ -1,2 +1,0 @@
-servicename=$(k get service -l "app={{ .Values.appName }}" -o jsonpath="{.items[0].metadata.name}")
-kubectl port-forward svc/{{ .Values.appname }} -n argocd 8080:443 > /dev/null 2>&1 &

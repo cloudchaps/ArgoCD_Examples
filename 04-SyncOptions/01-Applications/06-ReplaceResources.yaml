@@ -1,19 +1,21 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata: 
-  name: replace-resources
+  name: auto-selfheal-app
   namespace: argocd
 spec:
   destination:
-    namespace: replace-resources
+    namespace: helm-config
     server: "https://kubernetes.default.svc"
-  project: default
+  project: helmk8s-project
   source: 
-    path: 07-ReplaceResources
+    path: 04-SyncOptions/02-Manifest/01-AutomatedSync
     repoURL: "https://github.com/cloudchaps/ArgoCD_Examples.git"
-    targetRevision: master
-    directory:
-      recurse: true
+    targetRevision: main
+    helm:
+      releaseName: my-release
+      valueFiles:
+        - values.yaml
   syncPolicy:
     automated: {}
     syncOptions:
