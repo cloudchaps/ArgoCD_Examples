@@ -1,21 +1,23 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata: 
-  name: auto-pruning-demo
+  name: auto-sync-app
   namespace: argocd
-spec: 
+spec:
   destination:
-    namespace: auto-pruning-demo
+    namespace: helm-config
     server: "https://kubernetes.default.svc"
-  project: default
+  project: helmk8s-project
   source: 
-    path: 02-AutomatedPruning
+    path: 04-SyncOptions/02-Manifest/02-AutomatedPruning
     repoURL: "https://github.com/cloudchaps/ArgoCD_Examples.git"
-    targetRevision: master
-    directory:
-      recurse: true
+    targetRevision: main
+    helm:
+      releaseName: my-release
+      valueFiles:
+        - values.yaml
   syncPolicy:
-    automated: 
+    automated:
       prune: true
     syncOptions:
-      - CreateNamespace=true    
+      - CreateNamespace=true
