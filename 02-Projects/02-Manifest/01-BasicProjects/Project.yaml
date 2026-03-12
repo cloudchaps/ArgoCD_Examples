@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: demo-project
-  namespace: argocd
+  name: plaink8s-project
+  namespace: guestbook
 spec:
-  description: Demo Project
+  description: Project for plain kubernetes manifest applications
   sourceRepos:
   - '*'
 

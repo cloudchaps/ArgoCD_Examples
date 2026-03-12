@@ -5,13 +5,13 @@ metadata:
   namespace: argocd
 spec: 
   destination: 
-    namespace: guestbook-demo-project
+    namespace: guestbook
     server: "https://kubernetes.default.svc"
-  project: demo-project
+  project: plaink8s-project
   source: 
-    path: 01-BasicProjects
+    path: 02-Projects/02-Manifest/01-BasicProjects
     repoURL: "https://github.com/cloudchaps/ArgoCD_Examples.git"
-    targetRevision: master
+    targetRevision: main
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
