@@ -4,7 +4,7 @@ env:
     ### Global Variables
     
     ### Runtime Variables
-    ARGOCD_APPLICATIONS: "01-AutomatedSync 02-AutomatedPruning 03-AutomatedSelfHealing 04-NoPruneAtResourceLevel 05-SelectiveSync 06-FailOnSharedResources 07-ReplacesResources"
+    ARGOCD_APPLICATIONS: "01-AutomatedSync 02-AutomatedPruning 03-AutomatedSelfHealing 04-SelectiveSync 05-FailOnSharedResources 06-ReplaceResources"
         
   ####### Create Resource Group and lauch VMs #######
 tasks:
@@ -15,7 +15,13 @@ tasks:
             for ARGOCD_APPLICATION in ${ARGOCD_APPLICATIONS}; do
               echo "✅ Creating ${ARGOCD_APPLICATION} application in ArgoCD"
               kubectl apply -f ./01-Applications/${ARGOCD_APPLICATION}.yaml
-              echo "✅ Get the ${ARGOCD_APPLICATION} application with the following command:"
-              kubectl get applications -n ${ARGOCD_APPLICATION}
-              kubectl describe application -n argocd
+            done
+    
+    ARGOCD:02-Delete-Projects:
+      desc: Clean up applications
+      cmds:
+        - cmd: |
+            for ARGOCD_APPLICATION in ${ARGOCD_APPLICATIONS}; do
+              echo "❌ Deleting ${ARGOCD_APPLICATION} application in ArgoCD"
+              kubectl delete -f ./01-Applications/${ARGOCD_APPLICATION}.yaml
             done
