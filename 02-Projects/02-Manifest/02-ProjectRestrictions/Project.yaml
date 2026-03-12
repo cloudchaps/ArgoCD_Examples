@@ -1,15 +1,15 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: dev-project
+  name: helmk8s-project
   namespace: argocd
 spec:
-  description: Dev Project
+  description: helmk8s-project
   sourceRepos:
   - '*'
 
   destinations:
-  - namespace: ns-1
+  - namespace: helm-config
     server: https://kubernetes.default.svc
 
   clusterResourceWhitelist:

@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
   name: plaink8s-project
-  namespace: guestbook
+  namespace: argocd
 spec:
   description: Project for plain kubernetes manifest applications
   sourceRepos:

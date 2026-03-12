@@ -13,6 +13,7 @@ tasks:
       desc: Create a Projects for ArgoCD Applications
       cmds:
         - cmd: |
+            kubectl create namespace k8s-plain-applications
             for ARGOCD_PROJECT in ${ARGOCD_PROJECTS}; do
               echo "✅ Creating ${ARGOCD_PROJECT} AppProject in ArgoCD"
               kubectl apply -f ./02-Manifest/01-BasicProjects/${ARGOCD_PROJECT}.yaml
