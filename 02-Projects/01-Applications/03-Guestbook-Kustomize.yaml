@@ -7,7 +7,7 @@ spec:
   destination:
     namespace: kustomize-app
     server: "https://kubernetes.default.svc"
-  project: default
+  project: kustomizek8s-project
   source: 
     path: 01-Applications/02-Manifest/03-Kustomize/overlays/dev
     repoURL: "https://github.com/cloudchaps/ArgoCD_Examples.git"

@@ -1,0 +1,7 @@
+resources:
+- ../../base
+
+namespace: kustom-prod
+
+patches:
+- replicas.yaml

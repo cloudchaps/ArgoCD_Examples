@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: project-with-role
+  name: kustomizek8s-project
   namespace: argocd
 spec:
   description: project-with-role description
@@ -24,4 +24,4 @@ spec:
   - name: ci-role
     description: Sync privileges for project-with-role
     policies:
-    - p, proj:project-with-role:ci-role, applications, sync, project-with-role/*, allow
+    - p, proj:kustomizek8s-project:ci-role, applications, sync, kustomizek8s-project/*, allow
