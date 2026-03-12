@@ -9,7 +9,7 @@ spec:
     server: "https://kubernetes.default.svc"
   project: helmk8s-project
   source: 
-    path: 04-SyncOptions/02-Manifest/01-TrackingStrategies
+    path: 05-TrackingStrategies/02-Manifest/01-TrackingStrategies
     repoURL: "https://github.com/cloudchaps/ArgoCD_Examples.git"
     targetRevision: HEAD # this will track the latest commit on the default branch
     helm:
