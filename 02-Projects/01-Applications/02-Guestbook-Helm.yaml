@@ -1,17 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata: 
-  name: guestbook-demo-project
+  name: helm-app
   namespace: argocd
 spec: 
   destination: 
-    namespace: guestbook-demo-project
+    namespace: helm-app
     server: "https://kubernetes.default.svc"
-  project: demo-project
+  project: default
   source: 
-    path: 03-ProjectRoles
+    path: 01-Applications/02-Manifest/02-Helm
     repoURL: "https://github.com/cloudchaps/ArgoCD_Examples.git"
-    targetRevision: master
+    targetRevision: main
+    helm:
+     releaseName: my-release
   syncPolicy:
     syncOptions:
       - CreateNamespace=true

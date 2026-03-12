@@ -5,6 +5,7 @@ env:
     
     ### Runtime Variables
     ARGOCD_PROJECTS: "01-BasicProject 02-ProjectRestrictions 03-ProjectRoles"
+    ARGOCD_APPLICATIONS: "01-Guestbook 02-Guestbook-Helm 03-Guestbook-Kustomize"
         
   ####### Create Resource Group and lauch VMs #######
 tasks:
@@ -12,6 +13,18 @@ tasks:
       desc: Create a Projects for ArgoCD Applications
       cmds:
         - cmd: |
+            for ARGOCD_PROJECT in ${ARGOCD_PROJECTS}; do
+              echo "✅ Creating ${ARGOCD_PROJECT} AppProject in ArgoCD"
+              kubectl apply -f ./02-Manifest/01-BasicProjects/${ARGOCD_PROJECT}.yaml
+              echo "✅ ${ARGOCD_PROJECT} AppProject created"
+            done
+    
+    ARGOCD:02-Create-application-Manifests:
+      desc: Create a applications in ArgoCD
+      cmds:
+        - cmd: |
+            kubectl create namespace helm-app
+            kubectl create namespace kustomize-app
             for ARGOCD_APPLICATION in ${ARGOCD_APPLICATIONS}; do
               echo "✅ Creating ${ARGOCD_APPLICATION} application in ArgoCD"
               kubectl apply -f ./01-Applications/${ARGOCD_APPLICATION}.yaml
