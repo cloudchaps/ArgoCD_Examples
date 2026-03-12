@@ -12,8 +12,10 @@ spec:
     path: 04-SyncOptions/02-Manifest/01-AutomatedSync
     repoURL: "https://github.com/cloudchaps/ArgoCD_Examples.git"
     targetRevision: main
-    directory:
-      recurse: true
+    helm:
+      releaseName: my-release
+      valueFiles:
+        - values.yaml
   syncPolicy:
     automated: {}
     syncOptions:
