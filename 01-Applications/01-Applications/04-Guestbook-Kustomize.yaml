@@ -12,10 +12,6 @@ spec:
     path: 01-Applications/02-Manifest/04-Kustomize/overlays/dev
     repoURL: "https://github.com/cloudchaps/ArgoCD_Examples.git"
     targetRevision: main
-    kustomize:
-      namePrefix: staging-
-      commonLabels:
-        app: demo
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
