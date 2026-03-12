@@ -1,19 +1,21 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata: 
-  name: track-commit
+  name: 02-tracking-commit-app
   namespace: argocd
 spec:
   destination:
-    namespace: track-commit
+    namespace: helm-config
     server: "https://kubernetes.default.svc"
-  project: default
+  project: helmk8s-project
   source: 
-    path: 02-TrackingGitCommit
+    path: 04-SyncOptions/02-Manifest/01-TrackingStrategies
     repoURL: "https://github.com/cloudchaps/ArgoCD_Examples.git"
-    targetRevision: 2455bb6
-    directory:
-      recurse: true
+    targetRevision: 2455bb6 # commit hash
+    helm:
+      releaseName: my-release
+      valueFiles:
+        - values.yaml
   syncPolicy:
     automated: {}
     syncOptions:

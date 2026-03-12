@@ -1,19 +1,21 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata: 
-  name: track-git-tag
+  name: 01-tracking-git-app
   namespace: argocd
 spec:
   destination:
-    namespace: track-git-tag
+    namespace: helm-config
     server: "https://kubernetes.default.svc"
-  project: default
+  project: helmk8s-project
   source: 
-    path: 01-TrackingGitTag
+    path: 04-SyncOptions/02-Manifest/01-TrackingStrategies
     repoURL: "https://github.com/cloudchaps/ArgoCD_Examples.git"
-    targetRevision: v1
-    directory:
-      recurse: true
+    targetRevision: v1 # this will track the git tag
+    helm:
+      releaseName: my-release
+      valueFiles:
+        - values.yaml
   syncPolicy:
     automated: {}
     syncOptions:

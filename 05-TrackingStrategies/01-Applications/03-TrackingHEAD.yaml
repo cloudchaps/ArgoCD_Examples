@@ -1,19 +1,21 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata: 
-  name: track-head
+  name: 03-tracking-HEAD-app
   namespace: argocd
 spec:
   destination:
-    namespace: track-head
+    namespace: helm-config
     server: "https://kubernetes.default.svc"
-  project: default
+  project: helmk8s-project
   source: 
-    path: 03-TrackingHEAD
+    path: 04-SyncOptions/02-Manifest/01-TrackingStrategies
     repoURL: "https://github.com/cloudchaps/ArgoCD_Examples.git"
-    targetRevision: HEAD
-    directory:
-      recurse: true
+    targetRevision: HEAD # this will track the latest commit on the default branch
+    helm:
+      releaseName: my-release
+      valueFiles:
+        - values.yaml
   syncPolicy:
     automated: {}
     syncOptions:

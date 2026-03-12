@@ -1,0 +1,27 @@
+version: "3"
+
+env:
+    ### Global Variables
+    
+    ### Runtime Variables
+    ARGOCD_APPLICATIONS: "01-TrackingGitTag 02-TrackingGitCommit 03-TrackingHEAD 04-TrackingHelmRangeOfVersions 05-TrackingHelmLatestVersion"
+        
+  ####### Create Resource Group and lauch VMs #######
+tasks:
+    ARGOCD:01-Create-projects:
+      desc: Create a Projects for ArgoCD Applications
+      cmds:
+        - cmd: |
+            for ARGOCD_APPLICATION in ${ARGOCD_APPLICATIONS}; do
+              echo "✅ Creating ${ARGOCD_APPLICATION} application in ArgoCD"
+              kubectl apply -f ./01-Applications/${ARGOCD_APPLICATION}.yaml
+            done
+    
+    ARGOCD:02-Delete-Projects:
+      desc: Clean up applications
+      cmds:
+        - cmd: |
+            for ARGOCD_APPLICATION in ${ARGOCD_APPLICATIONS}; do
+              echo "❌ Deleting ${ARGOCD_APPLICATION} application in ArgoCD"
+              kubectl delete -f ./01-Applications/${ARGOCD_APPLICATION}.yaml
+            done
