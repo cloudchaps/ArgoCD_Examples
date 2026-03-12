@@ -4,9 +4,7 @@ env:
     ### Global Variables
     
     ### Runtime Variables
-    ARGOCD_NAMESPACES: 
-      - "guestbook"
-    ARGOCD_APPLICATIONS: "01-Guestbook 02-Guestbook-Helm 04-Guestbook-Kustomize"
+    ARGOCD_APPLICATIONS: "01-Guestbook 02-Guestbook-Helm 03-Guestbook-Kustomize"
         
   ####### Create Resource Group and lauch VMs #######
 tasks:
@@ -45,6 +43,8 @@ tasks:
       desc: Create a single application in ArgoCD
       cmds:
         - cmd: |
+            kubectl create namespace helm-app
+            kubectl create namespace kustomize-app
             for ARGOCD_APPLICATION in ${ARGOCD_APPLICATIONS}; do
               echo "✅ Creating ${ARGOCD_APPLICATION} application in ArgoCD"
               kubectl apply -f ./01-Applications/${ARGOCD_APPLICATION}.yaml

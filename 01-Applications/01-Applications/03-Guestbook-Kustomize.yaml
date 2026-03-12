@@ -1,19 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata: 
-  name: directory-app
+  name: kustomize-app
   namespace: argocd
 spec: 
   destination:
-    namespace: directory-app
+    namespace: kustomize-app
     server: "https://kubernetes.default.svc"
   project: default
   source: 
-    path: 03-Directories
+    path: 01-Applications/02-Manifest/03-Kustomize/overlays/dev
     repoURL: "https://github.com/cloudchaps/ArgoCD_Examples.git"
-    targetRevision: master
-    directory:
-      recurse: true
+    targetRevision: main
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
