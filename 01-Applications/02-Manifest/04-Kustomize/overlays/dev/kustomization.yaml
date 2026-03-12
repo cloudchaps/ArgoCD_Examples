@@ -4,4 +4,7 @@ resources:
 namespace: kustom-dev
 
 patches:
-- replicas.yaml
+  - path: patch.yaml
+    target:
+      kind: Deployment
+      name: guestbook
