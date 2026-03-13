@@ -4,7 +4,7 @@ env:
     ### Global Variables
     
     ### Runtime Variables
-    ARGOCD_APPLICATIONS: "01-Guestbook 02-Guestbook-Helm 03-Guestbook-Kustomize"
+    ARGOCD_APPLICATIONS: "01-Guestbook 02-Guestbook-Helm 03-Guestbook-Kustomize 04-Guestbook-Jsonnet.yaml"
         
   ####### Create Resource Group and lauch VMs #######
 tasks:

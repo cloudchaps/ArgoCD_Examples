@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: guestbook-jsonnet-modules
+  namespace: argocd
+spec: 
+  destination:
+    namespace: guestbook-jsonnet
+    server: "https://kubernetes.default.svc"
+  project: default
+  source: 
+    path: 01-Applications/02-Manifest/05-JsonnetModules
+    repoURL: "https://github.com/cloudchaps/ArgoCD_Examples.git"
+    targetRevision: main
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
