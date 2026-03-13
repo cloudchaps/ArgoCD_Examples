@@ -11,7 +11,8 @@
       "kubectl@latest",
       "helm@latest",
       "docker@latest",
-      "minikube@latest"
+      "minikube@latest",
+      "argocd@latest"
     ],
     "shell": {
       "init_hook": [

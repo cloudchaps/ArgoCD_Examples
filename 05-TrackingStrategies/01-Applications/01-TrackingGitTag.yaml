@@ -11,7 +11,7 @@ spec:
   source: 
     path: 05-TrackingStrategies/02-Manifest/01-TrackingStrategies
     repoURL: "https://github.com/cloudchaps/ArgoCD_Examples.git"
-    targetRevision: v1 # this will track the git tag
+    targetRevision: v1.0.0 # this will track the git tag
     helm:
       releaseName: my-release
       valueFiles:

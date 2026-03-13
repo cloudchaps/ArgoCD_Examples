@@ -33,3 +33,12 @@ tasks:
               kubectl get applications -n ${ARGOCD_APPLICATION}
               kubectl describe application -n argocd
             done
+
+    ARGOCD:03-Get-role-token:
+      desc: Get the token for the role
+      cmds:
+        - cmd: |
+            echo "This is the master password $(kubectl get secret -n argocd argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d)"
+            argocd login localhost:8080 --username admin --password "YOUR_PASSWORD_HERE" --insecure
+            argocd proj role create-token kustomizek8s-project ci-role
+            argocd app delete kustomize-app --auth-token "YOUR_TOKEN_HERE"

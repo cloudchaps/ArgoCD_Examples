@@ -25,7 +25,7 @@ tasks:
         - kubectl get nodes
         - kubectl version
         - echo "✅ You can now access the dashboard with the following command:"
-        - minikube dashboard
+        - minikube dashboard >/dev/null 2>&1 &
         
     ARGOCD:02-deploy-argocd:
       desc: Deploy ArgoCD in the cluster
