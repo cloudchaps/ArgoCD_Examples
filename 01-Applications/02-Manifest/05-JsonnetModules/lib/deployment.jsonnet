@@ -3,7 +3,7 @@
         apiVersion: 'apps/v1',
         kind: 'Deployment',
         metadata: {
-            name: name
+            name: name,
             labels: { app: name }
         },
         spec: {
