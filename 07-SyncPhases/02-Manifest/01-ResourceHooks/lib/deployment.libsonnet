@@ -6,7 +6,8 @@
             name: name,
             namespace: namespace,
             labels: { app: name },
-            annotations: if argocdhook != null || argocdwave != null then {
+            if argocdhook != null || argocdwave != null then {
+            annotations: 
                 'argocd.argoproj.io/hook': argocdhook,
                 'argocd.argoproj.io/sync-wave': argocdwave,
             } else {}
