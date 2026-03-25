@@ -1,5 +1,5 @@
-local deployment = import "./lib/deployment.jsonnet";
-local service = import "./lib/service.jsonnet";
+local deployment = import "./lib/deployment.libsonnet";
+local service = import "./lib/service.libsonnet";
 
 [
     deployment.deployment(
