@@ -2,7 +2,7 @@ local statefulset = import './lib/statefulset.libsonnet';
 local service = import "./lib/service.libsonnet";
 
 [
-    mongodb.statefulset(
+    statefulset.statefulset(
         name="mongo",
         argocdhook="PreSync",
         argocdwave="-1",
@@ -13,11 +13,11 @@ local service = import "./lib/service.libsonnet";
             MONGO_INITDB_DATABASE: "epoc"
         }
     ),
-    mongodb.service(
+    service.service(
         name="mongo",
         port=27017
     ),
-    mysql.statefulset(
+    statefulset.statefulset(
         name="mysql",
         argocdhook="PreSync",
         argocdwave="-1",
@@ -29,7 +29,7 @@ local service = import "./lib/service.libsonnet";
             MYSQL_DATABASE: "books"
         }
     ),
-    mysql.service(
+    service.service(
         name="mysql",
         port=3306
     )
