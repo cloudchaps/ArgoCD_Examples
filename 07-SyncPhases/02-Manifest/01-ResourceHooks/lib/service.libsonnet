@@ -1,0 +1,22 @@
+{
+    service(name, port)::{
+        apiVersion: 'v1',
+        kind: 'Service',
+        metadata: {
+            name: name,
+            labels: { app: name }
+        },
+        spec: {
+            selector: {
+                app: name
+            },
+            ports: [
+                {
+                    protocol: 'TCP',
+                    port: port,
+                    targetPort: port
+                }
+            ]
+        }
+    }
+}

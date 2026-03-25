@@ -11,5 +11,9 @@ local statefulset = import './lib/statefulset.libsonnet';
     envVariables={
       MONGO_INITDB_DATABASE: "epoc"
     }
-  )
+  ),
+    service.service(
+        name="mongo",
+        port=27017
+    )
 ]
