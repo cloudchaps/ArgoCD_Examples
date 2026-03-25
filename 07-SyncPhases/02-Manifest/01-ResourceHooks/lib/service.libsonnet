@@ -1,9 +1,10 @@
 {
-    service(name, port)::{
+    service(name, namespace, port)::{
         apiVersion: 'v1',
         kind: 'Service',
         metadata: {
             name: name,
+            namespace: namespace,
             labels: { app: name }
         },
         spec: {

@@ -9,11 +9,12 @@ local toEnvList(envObj) =
   );
 
 {
-    statefulset(name, argocdhook, argocdwave, image, version, port, envVariables={})::{
+    statefulset(name, namespace, argocdhook, argocdwave, image, version, port, envVariables={})::{
         apiVersion: 'apps/v1',
         kind: 'StatefulSet',
         metadata: {
             name: name,
+            namespace: namespace,
             labels: { app: name },
             annotations: {
                 'argocd.argoproj.io/hook': argocdhook,
