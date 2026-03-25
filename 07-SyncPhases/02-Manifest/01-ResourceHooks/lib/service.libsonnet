@@ -1,5 +1,5 @@
 {
-    service(name, namespace, port)::{
+    service(name, namespace, port, selector=null)::{
         apiVersion: 'v1',
         kind: 'Service',
         metadata: {
@@ -9,7 +9,7 @@
         },
         spec: {
             selector: {
-                app: name
+                app: if selector != null then selector else name
             },
             ports: [
                 {

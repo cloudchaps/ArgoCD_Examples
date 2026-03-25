@@ -80,15 +80,6 @@ local deployments = [
         |||,
       },
     },
-  },
-  {
-    name: 'nginx-deployment',
-    image: 'nginx',
-    argocdwave: '-1',
-    version: 'latest',
-    replicas: 1,
-    port: 80,
-    serviceName: 'nginx-service',
   }
 ];
 
@@ -109,11 +100,12 @@ local dbResources = std.flatMap(function(db) [
     name=db.serviceName,
     namespace=namespace,
     port=db.port,
+    selector=db.name,
   ),
   initjob.initjob(
     name='migration-' + db.name,
     argocdhook='PreSync',
-    argocdwave='-1',
+    argocdwave='0',
     deletepolicy='BeforeHookCreation,HookSucceeded',
     image=db.image,
     version=db.version,
