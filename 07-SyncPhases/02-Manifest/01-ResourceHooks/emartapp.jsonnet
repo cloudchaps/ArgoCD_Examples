@@ -42,6 +42,8 @@ local deployments = [
   {
     name: 'nginx-deployment',
     image: 'nginx',
+    argocdwave: '0',
+    argocdhook: 'PreSync'
     version: 'latest',
     replicas: 1,
     port: 80,
@@ -79,6 +81,15 @@ local deployments = [
       },
     },
   },
+  {
+    name: 'nginx-deployment',
+    image: 'nginx',
+    argocdwave: '-1',
+    version: 'latest',
+    replicas: 1,
+    port: 80,
+    serviceName: 'nginx-service',
+  }
 ];
 
 // ── Resource generation ───────────────────────────────────────────────────────
@@ -114,6 +125,8 @@ local deploymentResources = std.flatMap(function(d) [
   deployment.deployment(
     name=d.name,
     namespace=namespace,
+    argocdwave=d.argocdwave,
+    argocdhook=d.argocdhook,
     image=d.image,
     version=d.version,
     replicas=d.replicas,

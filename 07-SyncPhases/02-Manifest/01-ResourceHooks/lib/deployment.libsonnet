@@ -1,11 +1,15 @@
 {
-    deployment(name, namespace, image, version, replicas, port)::{
+    deployment(name, namespace, argocdwave, argocdhook, image, version, replicas, port)::{
         apiVersion: 'apps/v1',
         kind: 'Deployment',
         metadata: {
             name: name,
             namespace: namespace,
             labels: { app: name }
+            annotations: {
+                'argocd.argoproj.io/hook': argocdhook,
+                'argocd.argoproj.io/sync-wave': argocdwave,
+            }
         },
         spec: {
             replicas: replicas,
