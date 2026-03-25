@@ -1,3 +1,5 @@
+local statefulset = import './lib/statefulset.libsonnet';
+
 [
   statefulset.statefulset(
     name="mongo",

@@ -11,7 +11,7 @@ local toEnvList(envObj) =
 {
     statefulset(name, argocdhook, argocdwave, image, version, port, envVariables={})::{
         apiVersion: 'apps/v1',
-        kind: 'Statefulset',
+        kind: 'StatefulSet',
         metadata: {
             name: name,
             labels: { app: name },
@@ -21,6 +21,7 @@ local toEnvList(envObj) =
             }
         },
         spec: {
+            serviceName: name,
             selector: {
                 matchLabels: {
                     app: name
@@ -36,7 +37,7 @@ local toEnvList(envObj) =
                     containers: [
                         {
                             name: name,
-                            image: image  + ':' + version
+                            image: image  + ':' + version,
 
                             ports: [
                                 { containerPort: port }
