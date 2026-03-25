@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: emartapp-application
+  annotations:
+    argocd.argoproj.io/hook: PreSync # Ensure service is present before application sync
+    argocd.argoproj.io/sync-wave: "-1" # Deploys very early
+    argocd.argoproj.io/hook-delete-policy: HookFailed # define when the hook will be deleted
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: nginx
+
+  template:
+    metadata:
+      labels:
+        app: nginx
+
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+
+        ports:
+        - containerPort: 80
+
+        volumeMounts:
+        - name: nginx-config-volume
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+
+      volumes:
+      - name: nginx-config-volume
+        configMap:
+          name: nginx-config

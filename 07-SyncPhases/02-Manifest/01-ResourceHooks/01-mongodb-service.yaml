@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: emongo
+  namespace: emartapp-application
+  annotations:
+    argocd.argoproj.io/hook: PreSync # Ensure service is present before application sync
+    argocd.argoproj.io/sync-wave: "-1" # Deploys very early
+    argocd.argoproj.io/hook-delete-policy: HookFailed # define when the hook will be deleted
+spec:
+  selector:
+    app: mongo
+
+  ports:
+  - port: 27017
+    targetPort: 27017
+
+  type: ClusterIP

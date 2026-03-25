@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  namespace: emartapp-application
+  annotations:
+    argocd.argoproj.io/hook: PreSync # Ensure service is present before application sync
+    argocd.argoproj.io/sync-wave: "-1" # Deploys very early
+    argocd.argoproj.io/hook-delete-policy: HookFailed # define when the hook will be deleted
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:8.0.33
+
+        ports:
+        - containerPort: 3306
+
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: emartdbpass
+
+        - name: MYSQL_DATABASE
+          value: books
+
+        volumeMounts:
+        - name: mysql-data
+          mountPath: /var/lib/mysql
+
+      volumes:
+      - name: mysql-data
+        emptyDir: {}
