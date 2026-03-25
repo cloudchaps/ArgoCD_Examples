@@ -80,6 +80,36 @@ local deployments = [
         |||,
       },
     },
+  },
+  {
+    name: 'javaapi-service',
+    image: 'darosa87/emartappjavaapi',
+    argocdwave: '1',
+    argocdhook: 'Sync',
+    version: 'latest',
+    replicas: 2,
+    port: 9000,
+    serviceName: 'javaapi-service'
+  },
+  {
+    name: 'nodeapi-service',
+    image: 'darosa87/emartnodeapi',
+    argocdwave: '2',
+    argocdhook: 'Sync',
+    version: 'latest',
+    replicas: 2,
+    port: 5000,
+    serviceName: 'nodeapi-service'
+  },
+  {
+    name: 'client',
+    image: 'darosa87/cloudchaps',
+    argocdwave: '3',
+    argocdhook: 'Sync',
+    version: '1.0',
+    replicas: 2,
+    port: 4200,
+    serviceName: 'client'
   }
 ];
 
