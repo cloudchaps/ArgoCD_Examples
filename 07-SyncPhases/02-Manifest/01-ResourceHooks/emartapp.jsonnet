@@ -159,6 +159,7 @@ local deploymentResources = std.flatMap(function(d) [
     name=d.serviceName,
     namespace=namespace,
     port=d.port,
+    selector=d.name,
   ),
 ] + (
   if std.objectHas(d, 'configmap') then [
