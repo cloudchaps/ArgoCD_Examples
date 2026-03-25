@@ -1,5 +1,6 @@
 local statefulset = import './lib/statefulset.libsonnet';
 local service = import "./lib/service.libsonnet";
+local initjob = import "./lib/initdbjob.libsonnet";
 
 [
     statefulset.statefulset(
@@ -10,7 +11,8 @@ local service = import "./lib/service.libsonnet";
         version="4",
         port=27017,
         envVariables={
-            MONGO_INITDB_DATABASE: "epoc"
+            MONGO_INITDB_DATABASE: "epoc",
+            MONGO_URI: "mongodb://admin:example@mongo-service:27017/epoc?authSource=admin"
         }
     ),
     service.service(
@@ -32,5 +34,14 @@ local service = import "./lib/service.libsonnet";
     service.service(
         name="mysql",
         port=3306
+    ),
+    initjob.initjob(
+        name="migrationdb",
+        argocdhook="PreSync",
+        argocdwave="-1",
+        deletepolicy="BeforeHookCreation,HookSucceeded",
+        image="mysql",
+        version="8.0.33",
+        commands=["sh","-c","sleep 10","echo 'Done!'"]
     )
 ]
