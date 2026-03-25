@@ -1,9 +1,10 @@
 {
-    initjob(name, argocdhook, argocdwave, deletepolicy, image, version, commands)::{
+    initjob(name, namespace, argocdhook, argocdwave, deletepolicy, image, version, commands)::{
         apiVersion: 'batch/v1',
         kind: 'Job',
         metadata: {
-            generateName: 'migration-' + name,
+            name: name,
+            namespace: namespace,
             annotations: {
                 'argocd.argoproj.io/hook': argocdhook,
                 'argocd.argoproj.io/sync-wave': argocdwave,

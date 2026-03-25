@@ -104,6 +104,7 @@ local dbResources = std.flatMap(function(db) [
   ),
   initjob.initjob(
     name='migration-' + db.name,
+    namespace=namespace,
     argocdhook='PreSync',
     argocdwave='0',
     deletepolicy='BeforeHookCreation,HookSucceeded',
