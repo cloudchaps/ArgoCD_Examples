@@ -36,12 +36,21 @@ local initjob = import "./lib/initdbjob.libsonnet";
         port=3306
     ),
     initjob.initjob(
-        name="migrationdb",
+        name="migrationmysql",
         argocdhook="PreSync",
         argocdwave="-1",
         deletepolicy="BeforeHookCreation,HookSucceeded",
         image="mysql",
         version="8.0.33",
         commands=["sh","-c","sleep 10","echo 'Done!'"]
+    ),
+    initjob.initjob(
+        name="migrationmongo",
+        argocdhook="PreSync",
+        argocdwave="-1",
+        deletepolicy="BeforeHookCreation,HookSucceeded",
+        image="mongo",
+        version="4",
+        commands=["mongo", "--host", "mongo", "--eval", "db=db.getSiblingDB('epoc');db.createCollection('users');print('Database epoc initialized');"]
     )
 ]
