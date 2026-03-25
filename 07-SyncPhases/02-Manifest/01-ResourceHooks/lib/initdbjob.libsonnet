@@ -3,7 +3,7 @@
         apiVersion: 'batch/v1',
         kind: 'Job',
         metadata: {
-            generateName: 'mysql-migration-' + name,
+            generateName: 'migration-' + name,
             annotations: {
                 'argocd.argoproj.io/hook': argocdhook,
                 'argocd.argoproj.io/sync-wave': argocdwave,

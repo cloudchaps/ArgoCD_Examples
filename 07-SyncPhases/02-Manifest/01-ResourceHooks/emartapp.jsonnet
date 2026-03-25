@@ -10,7 +10,7 @@ local namespace = 'emartapp-application';
 
 local databases = [
   {
-    name: 'mongo',
+    name: 'emongo',
     image: 'mongo',
     version: '4',
     port: 27017,
