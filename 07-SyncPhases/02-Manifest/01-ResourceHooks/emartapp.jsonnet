@@ -17,10 +17,10 @@ local databases = [
     serviceName: 'emongo',
     env: {
       MONGO_INITDB_DATABASE: 'epoc',
-      MONGO_URI: "mongodb://admin:example@mongo-service:27017/epoc?authSource=admin",
+    MONGO_URI: 'mongodb://admin:example@emongo:27017/epoc?authSource=admin',
     },
     initCommands: [
-      'mongo', '--host', 'mongo', '--eval',
+      'mongo', '--host', 'emongo', '--eval',
       "db=db.getSiblingDB('epoc');db.createCollection('users');print('Database epoc initialized');",
     ],
   },
