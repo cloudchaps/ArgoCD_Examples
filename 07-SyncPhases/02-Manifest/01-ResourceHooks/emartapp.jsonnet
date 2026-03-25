@@ -89,8 +89,8 @@ local dbResources = std.flatMap(function(db) [
   statefulset.statefulset(
     name=db.name,
     namespace=namespace,
-    argocdhook='PreSync',
-    argocdwave='-1',
+    argocdhook='Sync',
+    argocdwave='0',
     image=db.image,
     version=db.version,
     port=db.port,
@@ -103,9 +103,9 @@ local dbResources = std.flatMap(function(db) [
     selector=db.name,
   ),
   initjob.initjob(
-    name='migration-' + db.name,
+    name=db.name,
     namespace=namespace,
-    argocdhook='PreSync',
+    argocdhook='PostSync',
     argocdwave='0',
     deletepolicy='BeforeHookCreation,HookSucceeded',
     image=db.image,

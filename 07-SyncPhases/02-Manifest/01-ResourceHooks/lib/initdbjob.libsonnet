@@ -3,7 +3,7 @@
         apiVersion: 'batch/v1',
         kind: 'Job',
         metadata: {
-            name: name,
+            name: 'migration-' + name,
             namespace: namespace,
             annotations: {
                 'argocd.argoproj.io/hook': argocdhook,
