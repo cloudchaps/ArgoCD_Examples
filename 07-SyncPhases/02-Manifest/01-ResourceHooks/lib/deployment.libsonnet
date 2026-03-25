@@ -5,7 +5,7 @@
         metadata: {
             name: name,
             namespace: namespace,
-            labels: { app: name }
+            labels: { app: name },
             annotations: {
                 'argocd.argoproj.io/hook': argocdhook,
                 'argocd.argoproj.io/sync-wave': argocdwave,
