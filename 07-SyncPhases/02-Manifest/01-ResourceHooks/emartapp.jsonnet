@@ -1,4 +1,5 @@
 local statefulset = import './lib/statefulset.libsonnet';
+local statefulset = import './lib/service.libsonnet';
 
 [
   statefulset.statefulset(
