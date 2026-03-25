@@ -42,7 +42,7 @@ local deployments = [
   {
     name: 'nginx-deployment',
     image: 'nginx',
-    argocdwave: '0',
+    argocdwave: '1',
     argocdhook: 'PreSync',
     version: 'latest',
     replicas: 1,
