@@ -42,16 +42,15 @@ local deployments = [
   {
     name: 'nginx-deployment',
     image: 'nginx',
-    argocdwave: '1',
-    argocdhook: 'PreSync',
+    argocdwave: '4',
     version: 'latest',
     replicas: 1,
     port: 80,
     serviceName: 'nginx-service',
     configmap: {
       name: 'nginx-config',
-      wave: '-1',
-      hook: 'PreSync',
+      wave: '3',
+      hook: 'Sync',
       data: {
         'nginx.conf': |||
           events {}
