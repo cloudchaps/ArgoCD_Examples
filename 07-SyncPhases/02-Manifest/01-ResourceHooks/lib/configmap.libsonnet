@@ -6,10 +6,7 @@
         metadata: {
             name: name,
             namespace: namespace,
-            labels: { app: name },
-            annotations: if argocdwave != null then {
-                'argocd.argoproj.io/sync-wave': argocdwave,
-            } else {}
+            labels: { app: name }
         },
         data: dataconfig
     }
