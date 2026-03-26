@@ -50,8 +50,8 @@ local deployments = [
     serviceName: 'nginx-service',
     configmap: {
       name: 'nginx-config',
-      argocdwave: '-1',
-      argocdhook: 'PreSync',
+      wave: '-1',
+      hook: 'PreSync',
       data: {
         'nginx.conf': |||
           events {}
@@ -171,6 +171,7 @@ local deploymentResources = std.flatMap(function(d) [
       namespace=namespace,
       dataconfig=d.configmap.data,
       argocdwave=if std.objectHas(d.configmap, 'wave') then d.configmap.wave else null,
+      argocdhook=if std.objectHas(d.configmap, 'hook') then d.configmap.hook else null,
     ),
   ] else []
 ), deployments);
