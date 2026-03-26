@@ -50,7 +50,8 @@ local deployments = [
     serviceName: 'nginx-service',
     configmap: {
       name: 'nginx-config',
-      wave: '0',
+      argocdwave: '-1',
+      argocdhook: 'PreSync',
       data: {
         'nginx.conf': |||
           events {}
