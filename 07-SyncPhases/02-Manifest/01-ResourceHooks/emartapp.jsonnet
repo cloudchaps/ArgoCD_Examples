@@ -50,6 +50,7 @@ local deployments = [
     serviceName: 'nginx-service',
     configmap: {
       name: 'nginx-config',
+      wave: '0',
       data: {
         'nginx.conf': |||
           events {}
@@ -168,6 +169,7 @@ local deploymentResources = std.flatMap(function(d) [
       name=d.configmap.name,
       namespace=namespace,
       dataconfig=d.configmap.data,
+      argocdwave=if std.objectHas(d.configmap, 'wave') then d.configmap.wave else null,
     ),
   ] else []
 ), deployments);
