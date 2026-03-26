@@ -12,7 +12,8 @@
       "helm@latest",
       "docker@latest",
       "minikube@latest",
-      "argocd@latest"
+      "argocd@latest",
+      "eksctl@latest"
     ],
     "shell": {
       "init_hook": [

@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata: 
-  name: guestbook-staging
+  name: sync-phases
   namespace: argocd
-spec: 
-  destination: 
-    namespace: guestbook-staging
-    server: "https://c50189b1-bb18-4a46-b772-b045e0ed4fde.k8s.ondigitalocean.com"
+spec:
+  destination:
+    namespace: remote-cluster
+    server: "https://7D3E2BB586258115FDAF52CCDA71FAF0.gr7.us-east-1.eks.amazonaws.com"
   project: default
   source: 
-    path: 01-RemoteCluster
+    path: 08-RemoteKubernetesClusters/02-Manifest/03-DeployManifest
     repoURL: "https://github.com/cloudchaps/ArgoCD_Examples.git"
-    targetRevision: master
+    targetRevision: main
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
