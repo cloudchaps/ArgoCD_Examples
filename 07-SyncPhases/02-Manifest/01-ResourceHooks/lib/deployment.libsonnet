@@ -1,5 +1,5 @@
 {
-    deployment(name, namespace, image, version, replicas, port, argocdwave=null, argocdhook=null)::{
+    deployment(name, namespace, image, version, replicas, port, argocdwave=null, argocdhook=null, configmapName=null)::{
         apiVersion: 'apps/v1',
         kind: 'Deployment',
         metadata: {
@@ -28,14 +28,31 @@
                         {
                             name: name,
                             image: image + ":" + version,
-
                             ports: [
                                 { containerPort: port }
                             ],
-
-                        }
-                    ]
-                }
+                        } + (
+                            if configmapName != null then {
+                                volumeMounts: [
+                                    {
+                                        name: configmapName + '-volume',
+                                        mountPath: '/etc/nginx/nginx.conf',
+                                        subPath: 'nginx.conf',
+                                    }
+                                ],
+                            } else {}
+                        )
+                    ],
+                } + (
+                    if configmapName != null then {
+                        volumes: [
+                            {
+                                name: configmapName + '-volume',
+                                configMap: { name: configmapName },
+                            }
+                        ],
+                    } else {}
+                )
             }
         }
     }

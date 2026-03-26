@@ -154,6 +154,7 @@ local deploymentResources = std.flatMap(function(d) [
     port=d.port,
     argocdwave=if std.objectHas(d, 'argocdwave') then d.argocdwave else null,
     argocdhook=if std.objectHas(d, 'argocdhook') then d.argocdhook else null,
+    configmapName=if std.objectHas(d, 'configmap') then d.configmap.name else null,
   ),
   service.service(
     name=d.serviceName,
