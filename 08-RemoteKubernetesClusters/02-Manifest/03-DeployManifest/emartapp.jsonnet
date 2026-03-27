@@ -47,6 +47,7 @@ local deployments = [
     replicas: 1,
     port: 80,
     serviceName: 'nginx-service',
+    serviceType: 'LoadBalancer',
     configmap: {
       name: 'nginx-config',
       wave: '3',
@@ -162,6 +163,7 @@ local deploymentResources = std.flatMap(function(d) [
     namespace=namespace,
     port=d.port,
     selector=d.name,
+    serviceType=if std.objectHas(d, 'serviceType') then d.serviceType else 'ClusterIP',
   ),
 ] + (
   if std.objectHas(d, 'configmap') then [

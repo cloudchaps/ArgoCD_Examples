@@ -52,16 +52,17 @@ tasks:
         - kubectl apply -f ./02-Manifest/02-LocalCluster/01-LocalSecret.yaml
 
 
-    ARGOCD:03-Create-application-Manifests:
+    ARGOCD:03-create-argocd-application:
       desc: Create a single application in ArgoCD
       cmds:
         - cmd: |
-            kubectl create namespace helm-app
-            kubectl create namespace kustomize-app
-            for ARGOCD_APPLICATION in ${ARGOCD_APPLICATIONS}; do
-              echo "✅ Creating ${ARGOCD_APPLICATION} application in ArgoCD"
-              kubectl apply -f ./01-Applications/${ARGOCD_APPLICATION}.yaml
-              echo "✅ Get the ${ARGOCD_APPLICATION} application with the following command:"
-              kubectl get applications -n ${ARGOCD_APPLICATION}
-              kubectl describe application -n argocd
-            done
+            kubectl create namespace emartapp-application
+            kubectl apply -f ./02-Manifest/02-LocalCluster/02-LocalApplication.yaml
+
+    ARGOCD:04-change-remote-config:
+      desc: Change the remote cluster configuration
+      cmds:
+        - eksctl create nodegroup --cluster test-cluster --region us-east-1 --name linux-nodes-v2 --node-type t3.small --nodes 2 --profile ${profile_name}
+        - eksctl delete nodegroup --cluster test-cluster --region us-east-1 --name linux-nodes --profile ${profile_name}
+        - eksctl scale nodegroup --cluster test-cluster --region us-east-1 --name linux-nodes-v2 --nodes 4 --profile ${profile_name}
+

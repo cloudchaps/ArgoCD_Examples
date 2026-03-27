@@ -1,5 +1,5 @@
 {
-    service(name, namespace, port, selector=null)::{
+    service(name, namespace, port, selector=null, serviceType='ClusterIP')::{
         apiVersion: 'v1',
         kind: 'Service',
         metadata: {
@@ -8,6 +8,7 @@
             labels: { app: name }
         },
         spec: {
+            type: serviceType,
             selector: {
                 app: if selector != null then selector else name
             },
