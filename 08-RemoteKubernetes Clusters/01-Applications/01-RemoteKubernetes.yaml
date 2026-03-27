@@ -1,12 +1,12 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata: 
-  name: sync-phases
+  name: remote-cluster
   namespace: argocd
 spec:
   destination:
     namespace: remote-cluster
-    server: "https://7D3E2BB586258115FDAF52CCDA71FAF0.gr7.us-east-1.eks.amazonaws.com"
+    server: "https://AF76238926D9A502DE8645817BAD70AC.gr7.us-east-1.eks.amazonaws.com"
   project: default
   source: 
     path: 08-RemoteKubernetesClusters/02-Manifest/03-DeployManifest

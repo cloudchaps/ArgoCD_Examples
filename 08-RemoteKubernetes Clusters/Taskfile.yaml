@@ -1,0 +1,67 @@
+version: "3"
+
+env:
+    ### Global Variables
+    
+    ### Runtime Variables
+    ARGOCD_APPLICATIONS: "01-Guestbook 02-Guestbook-Helm 03-Guestbook-Kustomize 04-Guestbook-Jsonnet.yaml 05-Guestbook-JsonnetModules"
+        
+  ####### Create Resource Group and lauch VMs #######
+tasks:
+    ARGOCD:01-launch-kubernetes-cluster:
+      desc: Launch cluster using minikube, this is a sinngle node cluster running in your local machine.
+      cmds:
+        - cmd: |
+            gum style "$(cat <<EOF
+            ✅ Pre-requisites
+            1. 👤 Launch minukube
+            2. 🔑 Create ssh keys in the Azure Portal and set the name in the AZURE_SSH_KEY variable
+            EOF
+            )"
+          silent: true
+        - minikube start --kubernetes-version=v1.28.3
+        - echo "✅ Kubernetes cluster launched successfully"
+        - minikube status
+        - kubectl get nodes
+        - kubectl version
+        - echo "✅ You can now access the dashboard with the following command:"
+        - minikube dashboard >/dev/null 2>&1 &
+        
+    ARGOCD:02-create-cluster:
+      desc: Create remote cluster resources and deploy ArgoCD in local
+      cmds:
+        - kubectl create namespace argocd
+        - kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+        - kubectl get pods -n argocd
+        - echo "✅ ArgoCD deployed successfully, waiting for pods to be ready"
+        - wait 120
+        - kubectl port-forward svc/argocd-server -n argocd 8080:443 > /dev/null 2>&1 &
+        - echo "✅ Get the password for the initial admin user with the following command:"
+        - echo "This is the master password $(kubectl get secret -n argocd argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d)"
+        - eksctl create cluster --name test-cluster --version=1.30 --region=us-east-1 --nodegroup-name linux-nodes --node-type t2.micro --nodes 2
+        - kubectl config get-contexts
+        - kubectl apply -f ./02-Manifest/01-RemoteCluster/01-RemoteServiceAccount.yaml
+        - sleep 10
+        - kubectl apply -f ./02-Manifest/01-RemoteCluster/02-BlindClusterRole.yaml
+        - sleep 10
+        - kubectl apply -f ./02-Manifest/01-RemoteCluster/03-CreateSecretToken.yaml
+        - kubectl cluster-info | grep 'Kubernetes control plane' | awk '{print $NF}'
+        - kubectl -n kube-system get secret argocd-manager-token -o jsonpath='{.data.token}' | base64 --decode
+        - kubectl config view --raw --minify --flatten -o jsonpath='{.clusters[0].cluster.certificate-authority-data}'
+        - kubectl config use-context minikube
+        - kubectl apply -f ./02-Manifest/02-LocalCluster/01-LocalSecret.yaml
+
+
+    ARGOCD:03-Create-application-Manifests:
+      desc: Create a single application in ArgoCD
+      cmds:
+        - cmd: |
+            kubectl create namespace helm-app
+            kubectl create namespace kustomize-app
+            for ARGOCD_APPLICATION in ${ARGOCD_APPLICATIONS}; do
+              echo "✅ Creating ${ARGOCD_APPLICATION} application in ArgoCD"
+              kubectl apply -f ./01-Applications/${ARGOCD_APPLICATION}.yaml
+              echo "✅ Get the ${ARGOCD_APPLICATION} application with the following command:"
+              kubectl get applications -n ${ARGOCD_APPLICATION}
+              kubectl describe application -n argocd
+            done
