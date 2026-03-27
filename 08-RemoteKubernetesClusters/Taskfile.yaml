@@ -64,5 +64,13 @@ tasks:
       cmds:
         - eksctl create nodegroup --cluster test-cluster --region us-east-1 --name linux-nodes-v2 --node-type t3.small --nodes 2 --profile ${profile_name}
         - eksctl delete nodegroup --cluster test-cluster --region us-east-1 --name linux-nodes --profile ${profile_name}
-        - eksctl scale nodegroup --cluster test-cluster --region us-east-1 --name linux-nodes-v2 --nodes 4 --profile ${profile_name}
+        - eksctl scale nodegroup --cluster test-cluster --region us-east-1 --name linux-nodes-v2 --nodes 4 --profile ${profile_name} # Use this in case of pod scaling
+
+    ARGOCD:05-delete-resources:
+      desc: Delete all resources created during the demo
+      cmds:
+        - eksctl delete cluster --name test-cluster --region us-east-1 --profile ${profile_name}
+        - kubectl config delete-context <context-name>
+        - minikube stop
+        - minikube delete --all --purge
 

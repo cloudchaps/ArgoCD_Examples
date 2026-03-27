@@ -107,7 +107,7 @@ local deployments = [
     image: 'darosa87/cloudchaps',
     argocdwave: '3',
     argocdhook: 'Sync',
-    version: '1.0',
+    version: '2.0',
     replicas: 2,
     port: 4200,
     serviceName: 'client'
